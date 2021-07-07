@@ -187,5 +187,6 @@ in {
       mesonFlags = old.mesonFlags or [ ] ++ [ "-Dintrospection=disabled" "-Dexamples=enabled" ];
     });
     gst-rtsp-launch = super.gst_all_1.gst-rtsp-launch or (self.callPackage ./gst-rtsp-launch.nix { });
+    gst-jpegtrunc = super.gst_all_1.gst-jpegtrunc or (self.callPackage ./gst-jpegtrunc.nix { });
   };
 }
