@@ -1,4 +1,4 @@
-{ config, pkgs, modulesPath, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 
 let
   uboot = pkgs.callPackage ./uboot {};
@@ -10,6 +10,7 @@ in
     ./cross-config.nix
   ];
 
+  hardware.enableRedistributableFirmware = lib.mkForce false;
   sdImage.populateFirmwareCommands = "";
   sdImage.populateRootCommands = ''
     mkdir -p ./files/boot

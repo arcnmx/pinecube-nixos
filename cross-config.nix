@@ -1,21 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-{
-  nixpkgs.crossSystem = lib.recursiveUpdate lib.systems.examples.armv7l-hf-multiplatform {
-    platform = {
-      name = "pinecube";
-      kernelBaseConfig = "sunxi_defconfig";
-    };
+{ config, lib, pkgs, ... }: let
+  toplevel = import ./default.nix { inherit pkgs; };
+in {
+  nixpkgs = {
+    inherit (toplevel) crossSystem;
+    overlays = toplevel.crossOverlays;
   };
-
-  nixpkgs.overlays = [ (self: super: {
-    # Dependency minimization for cross-compiling
-    cairo = super.cairo.override { glSupport = false; };
-    libass = super.libass.override { encaSupport = false; };
-    gnutls = super.gnutls.override { guileBindings = false; };
-    polkit = super.polkit.override { withIntrospection = false; };
-    v4l_utils = super.v4l_utils.override { withGUI = false; };
-  }) ];
 
   # disable more stuff to minimize cross-compilation
   # some from: https://github.com/illegalprime/nixos-on-arm/blob/master/images/mini/default.nix

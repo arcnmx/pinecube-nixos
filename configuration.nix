@@ -19,18 +19,17 @@
     }
     { name = "pine64-pinecube";
       patch = ./kernel/Pine64-PineCube-support.patch;
-      # sunxi_defconfig is missing wireless support
-      # TODO: Are all of these options needed here?
-      extraConfig = ''
-        CFG80211 m
-        WIRELESS y
-        WLAN y
-        RFKILL y
-        RFKILL_INPUT y
-        RFKILL_GPIO y
-      '';
     }
   ];
+  boot.initrd = {
+    includeDefaultModules = false;
+    availableKernelModules = lib.mkForce [
+      "mmc_block"
+      "usbhid"
+      "hid_generic" "hid_lenovo" "hid_apple" "hid_roccat"
+      "hid_logitech_hidpp" "hid_logitech_dj" "hid_microsoft"
+    ];
+  };
 
   boot.kernelModules = [ "spi-nor" ]; # Not sure why this doesn't autoload. Provides SPI NOR at /dev/mtd0
   boot.extraModulePackages = [ config.boot.kernelPackages.rtl8189es ];
@@ -56,7 +55,7 @@
     extraGroups = [ "wheel" "networkmanager" "video" ];
     initialPassword = "nixos";
   };
-  services.mingetty.autologinUser = "nixos";
+  services.getty.autologinUser = "nixos";
 
   networking.wireless.enable = true;
 

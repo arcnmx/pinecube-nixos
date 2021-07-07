@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-nix-build "<nixpkgs/nixos>" \
-    -I nixpkgs=https://github.com/danielfullmer/nixpkgs/archive/e69838e006a7271006ab834b521187891bf93ff4.tar.gz \
-    -I nixos-config=./sd-image.nix \
-    -A config.system.build.sdImage
+# curl -v https://channels.nixos.org/nixos-unstable-small/nixexprs.tar.xz
+NIXPKGS_PIN=https://releases.nixos.org/nixos/unstable-small/nixos-21.11pre300992.ce35e2852d2/nixexprs.tar.xz
+
+nix-build . \
+    -I nixpkgs=$NIXPKGS_PIN \
+    -A sdImage
