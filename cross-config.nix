@@ -14,6 +14,7 @@
     libass = super.libass.override { encaSupport = false; };
     gnutls = super.gnutls.override { guileBindings = false; };
     polkit = super.polkit.override { withIntrospection = false; };
+    v4l_utils = super.v4l_utils.override { withGUI = false; };
   }) ];
 
   # disable more stuff to minimize cross-compilation

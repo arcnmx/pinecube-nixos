@@ -41,7 +41,7 @@
 
   environment.systemPackages = with pkgs; [
     ffmpeg
-    (v4l_utils.override { withGUI = false; })
+    v4l_utils
     usbutils
   ];
 
