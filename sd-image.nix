@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, modulesPath, ... }:
 
 let
   uboot = pkgs.callPackage ./uboot {};
 in
 {
   imports = [ 
-    <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
+    (modulesPath + "/installer/sd-card/sd-image.nix")
     ./configuration.nix
     ./cross-config.nix
   ];

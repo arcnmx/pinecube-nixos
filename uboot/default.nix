@@ -1,17 +1,18 @@
-{ pkgs }:
+{ lib, buildUBoot }: with lib;
 
-pkgs.buildUBoot {
-  patches = [ ./Pine64-PineCube-uboot-support.patch ];
+buildUBoot {
+  patches = [
+    ./Pine64-PineCube-uboot-support.patch
+  ];
 
   defconfig = "pinecube_defconfig";
 
-  # Putting this here because it's more a design choice and not generic support
-  # for hardware.
-  extraConfig = ''
-    CONFIG_CMD_BOOTMENU=y
-  '';
+  extraConfig = concatStringsSep "\n" [
+    "CONFIG_CMD_BOOTMENU=y"
+    #"CONFIG_LOG=y" "CONFIG_LOGLEVEL=6"
+    #CONFIG_EXTRA_ENV_SETTINGS= # set uboot env defaults
+  ];
 
   extraMeta.platforms = ["armv7l-linux"];
   filesToInstall = ["u-boot-sunxi-with-spl.bin"];
-
 }
