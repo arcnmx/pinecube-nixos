@@ -1,9 +1,9 @@
 # NixOS on Pinecube
 
 Download / install Nix using the instructions [here](https://nixos.org/download.html).
-Then, build an SD card image with `./build.sh`.
-Decompress and flash with:
+Then, build an SD card image and flash with:
 ```shell
+$ nix-build . -A pinned.sdImage
 $ cat ./result/sd-image/nixos-sd-image-*-armv7l-linux.img.zst | zstd -d | dd of=/dev/sdX bs=1024
 ```
 

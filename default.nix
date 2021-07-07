@@ -1,4 +1,14 @@
 { pkgs ? import <nixpkgs> { } }: with pkgs.lib; let
+  nixpkgsPinned = builtins.fetchTarball {
+    # curl -v https://channels.nixos.org/nixos-unstable-small/nixexprs.tar.xz
+    name = "source";
+    url = "https://releases.nixos.org/nixos/unstable-small/nixos-21.11pre300992.ce35e2852d2/nixexprs.tar.xz";
+    sha256 = "19m6nhlvp9m6zf3glyywlgwg7d77idryqia9nnf75zh7c2xkwdfh";
+  };
+  pkgsPinned = import nixpkgsPinned { };
+  pinned = import ./. {
+    pkgs = pkgsPinned;
+  };
   crossSystem = systems.examples.armv7l-hf-multiplatform // {
     gcc = {
       arch = "armv7-a";
@@ -37,6 +47,7 @@ in {
   inherit (nixos) config;
   inherit (nixos.config.system.build) sdImage;
   inherit
+    nixpkgsPinned pinned pkgs
     nixosConfig nixos
     crossPkgs crossSystem crossOverlays overlays;
 }
