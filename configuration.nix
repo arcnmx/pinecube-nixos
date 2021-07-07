@@ -43,6 +43,7 @@
     v4l_utils
     usbutils
     gstreamer.dev
+    gst-rtsp-launch
   ];
   environment.sessionVariables = {
     GST_PLUGIN_SYSTEM_PATH_1_0 = with pkgs.gst_all_1; lib.makeSearchPath "lib/gstreamer-1.0" [
